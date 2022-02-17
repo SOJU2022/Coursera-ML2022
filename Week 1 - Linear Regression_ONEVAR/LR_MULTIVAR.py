@@ -148,7 +148,52 @@ def plotData(X, y, theta):
     plt.show()
 
 # call visualization
-plotData(X, y, theta)
+# plotData(X, y, theta)
+
+"""
+Selection of the best learning rate - alpha parameter
+> Plot the number of iterations against Cost J for variety of alpha 
+> Cost J should go down at increasing iterations - the quickness depends on the steepness
+> Plot the curves of different alpha in the same figure
+"""
+
+# plot the alphas and their respective J data
+def plotAlpha(J_history):
+    fig = plt.figure()
+
+    # loop through different J_history and plot them
+    for i in range(len(J_history)):
+        plt.plot(np.arange(len(J_history[i])), J_history[i,:], lw=2)
+        
+    plt.xlabel("Number of Iterations")
+    plt.ylabel("Cost J")
+    plt.legend("")    
+    plt.show()
+
+# separate J for each alpha
+def multipleAlpha(alpha):
+    alpha = alpha.copy()
+    num_iters = 500
+    J_history = []
+
+    for i in range(alpha.shape[0]): # can use len as well for 1D arrays
+        theta = np.zeros(3) # initial state for each iteration
+        theta, J_history = gradientDescentMulti(X, y, theta, alpha[i], num_iters)
+        J_history.append(J_history)
+    
+    return J_history
+
+
+# setup the alpha 
+alpha = np.array([0.01, 0.03, 0.1, 0.3]) # create an array of multiple alphas in log
+
+# return a matrix of J_histories from different alphas - matrix of size: num_iters x alpha.size
+J_history = multipleAlpha(alpha)
+
+# call J-alpha plot
+plotAlpha(J_history) 
+
+
 
 
 
