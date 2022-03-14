@@ -141,10 +141,6 @@ Validating cost func + grad output
 # print("Cost at initial theta: %.3f" % J) # one way to print using parameters
 # print("Expected cost (approx): 0.693 \n")
 
-# print("Cost at initial theta: ", J) # one way to print using parameters
-# print("Expected cost (approx): 0.693 \n")
-
-
 # print("Gradient at initial theta: ")
 # print("\t[{:.4f}, {:.4f}, {:.4f}]".format(*grad))
 # print('Expected gradients (approx):\n\t[-0.1000, -12.0092, -11.2628]\n')
@@ -227,7 +223,7 @@ print("For a student with scores 45 and 85, "
         "we predict an admission probability of {:.3f}".format(prob))
 print("Expected value: 0.775 +/- 0.002 \n")
 
-# Compute accuracy on our training set
+# Compute accuracy on our training set - given the computed theta
 p = predict(theta, X_intercept)
 print('Train Accuracy: {:.2f} %'.format(np.mean(p == y) * 100))
 print('Expected accuracy (approx): 89.00 %')
@@ -335,7 +331,7 @@ print('\t[0.0085, 0.0188, 0.0001, 0.0503, 0.0115]\n')
 # Compute and display cost and gradient
 # with all-ones theta and lambda = 10
 test_theta = np.ones(X_2_intercept.shape[1])
-J, grad = costFunctionReg(test_theta, X_2_intercept, y_2, 10)
+J, grad = costFunctionReg(test_theta, X_2_intercept, y_2, lambda_)
 
 print('------------------------------\n')
 print('Cost at test theta    : {:.2f}'.format(J))
@@ -374,3 +370,5 @@ plt.show()
 # Compute accuracy on our training set
 p = predict(theta_2, X_2_intercept)
 
+print('Train Accuracy: %.1f %%' % (np.mean(p == y_2) * 100))
+print('Expected accuracy (with lambda = 1): 83.1 % (approx)\n')
