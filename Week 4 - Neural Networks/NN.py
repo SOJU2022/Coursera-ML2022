@@ -1,5 +1,9 @@
 """
 Coursera Week 4 - Neural Networks
+> Making use of Logistic Regressors 
+However Logistic Regression cannot form more complex hypotheses as it is only
+a linear classifier - can add more features, such as polynomial features as done in Week 3
+But this make it very expensive to train since this will lead to huge matrices
 """
 
 # libs
@@ -131,6 +135,7 @@ print(' [0.146561, -0.548558, 0.724722, 1.398003]')
 One-vs-all Classification
 > Training multiple logistic regression classifiers
 > One for each of the K classes in our dataset (10 labels)
+> Outputs the probability that the input matches with the labels using an array with 0 and 1s
 """
 
 def oneVsAll(X, y, num_labels, lambda_):
@@ -166,8 +171,42 @@ def oneVsAll(X, y, num_labels, lambda_):
 lambda_ = 0.1
 all_theta, cost = oneVsAll(X, y, num_labels, lambda_)
 
-print(all_theta)
 
+# prediction of the input 
+def predictOneVsAll(all_theta, X_examples):
+    m, n = X_examples.shape # where X is the input - Examples of 20x20 pixels 
+    num_labels = all_theta.shape[0]
 
+    p = np.zeros(m)
+    X_examples = np.concatenate([np.ones((m, 1)), X_examples], axis=1)
+
+    """
+    Step for step brainstorm for the code
+    1. Input a number of examples inside X - columnwise - 400 + intercept bias
+    2. Calculate the predictions using all_theta for each example
+    2. This calculation yields an array with output from each label for each example
+    3. Need to obtain the number that is predicted from the array with index value 1 (argmax?)
+    4. Put all the predicted number in "p" parameter
+    """
+
+    # step 1 - Done in validation
+    # step 2 - yields a matrix for all examples with their predictions
+    output = np.dot(X_examples, all_theta.T) # a matrix num_examples x num_labels
+
+    # step 3
+    output_index = np.argmax(output, axis=1) # obtain index of the max of each row
+
+    # step 4 
+    p = output_index
+
+    return p 
+
+# get p with chosen data from X 
+X_validation = X[3500:3550,:] # obtain 20 examples from X
+p = predictOneVsAll(all_theta, X)
+print(p)
+
+# predict the training set accuracy against the calculated Theta
+print('Training Set Accuracy: {:.2f}%'.format(np.mean(p == y) * 100))
 
 
