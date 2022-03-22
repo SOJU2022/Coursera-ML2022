@@ -16,4 +16,6 @@ def trainLinearReg(costFunctionReg, X, y, lambda_, maxiter=200):
     # Minimize using scipy
     res = optimize.minimize(costFunction, initial_theta, jac=True, method='TNC', options=options)
     
-    return res.x
+    cost = res.fun 
+    grad = res.x
+    return grad
